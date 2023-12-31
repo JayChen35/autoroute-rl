@@ -1,0 +1,7 @@
+Remember: poetry is basically pip but faster and streamlines with VEs
+To initialize into existing project (creating the TOML): `poetry init`
+To add a package: `poetry add [package-name]`
+To add manually: (add an entry under tools.dependencies in pyproject.toml), then run `poetry update`
+To show current dependencies: `poetry show`
+To run: `poetry run python3 main.py` OR activate the the virtual environment via `poetry shell` and then run normally: `python3 main.py`. To deactivate: `deactivate`
+Sometimes, `poetry shell` is unreliable, and so instead to activate, run `source $(poetry env info --path)/bin/activate`
