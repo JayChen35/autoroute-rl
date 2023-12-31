@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
+import time
 
 # Dataset is CIFAR10
 # https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
@@ -14,11 +15,11 @@ import torchvision.transforms as transforms
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
-        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.conv1 = nn.Conv2d(3, 36, 5)
         self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
+        self.conv2 = nn.Conv2d(36, 16, 5)
+        self.fc1 = nn.Linear(16 * 5 * 5, 160)
+        self.fc2 = nn.Linear(160, 84)
         self.fc3 = nn.Linear(84, 10)
 
     def forward(self, x):
@@ -61,6 +62,8 @@ net = Net()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
+
+start_t = time.perf_counter()
 for epoch in range(2):  # Loop over the dataset multiple times
     running_loss = 0.0
     for i, data in enumerate(trainloader, 0):
@@ -84,7 +87,8 @@ for epoch in range(2):  # Loop over the dataset multiple times
 # Save model after training is done
 print('Finished training!')
 PATH = './cifar_net.pth'
-torch.save(net.state_dict(), PATH)
+print(f"Training time: {time.perf_counter() - start_t} seconds")
+# torch.save(net.state_dict(), PATH)
 
 # Get and print images from test dataset, as well as our net's predictions
 dataiter = iter(testloader)
@@ -101,6 +105,7 @@ imshow(torchvision.utils.make_grid(images))
 correct = 0
 total = 0
 # since we're not training, we don't need to calculate the gradients for our outputs
+start_t = time.perf_counter()
 with torch.no_grad():
     for data in testloader:
         images, labels = data
@@ -112,7 +117,4 @@ with torch.no_grad():
         correct += (predicted == labels).sum().item()
 
 print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
-
-
-# Finally, training on the GPU:
-
+print(f"Evaluation time: {time.perf_counter() - start_t} seconds")
