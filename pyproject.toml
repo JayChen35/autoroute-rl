@@ -11,6 +11,12 @@ numpy = "^1.26.2"
 matplotlib = "^3.8.2"
 torch = {version="^2.1.2", source="torch"}
 torchvision = {version="^0.16.2", source="torch"}
+gym = "^0.26.2"
+tensorboard = "^2.15.1"
+ffmpeg = "^1.4"
+moviepy = "^1.0.3"
+pygame = "^2.5.2"
+gymnasium = "^0.29.1"
 
 [[tool.poetry.source]]
 name = "torch"
